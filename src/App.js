@@ -1,25 +1,75 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import Projects from './components/Projects';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  useHistory,
+  useLocation
+} from "react-router-dom";
 
-function App() {
+export class App extends Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <AuthButton />
+          <Switch>
+            <Route path="/signin">
+              <SignIn />
+            </Route>
+            <Route path="/signup">
+              <SignUp />
+            </Route>
+            <PrivateRoute path="/">
+              <Projects />
+            </PrivateRoute>
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
+}
+
+function AuthButton() {
+  return localStorage.getItem('token') ? (
+    <p>
+      Welcome!{" "}
+      <button
+        onClick={() => {
+          localStorage.removeItem('token');
+        }}
+      >
+        Sign out
+      </button>
+    </p>
+  ) : (
+    <p>You are not logged in.</p>
+  );
+}
+
+function PrivateRoute({ children, ...rest }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Route
+      {...rest}
+      render={({ location }) =>
+      localStorage.getItem('token') ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/signin",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
   );
 }
 
