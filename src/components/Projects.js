@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {fetchProjectsRequest} from '../redux/actions';
 
-
 class Projects extends Component {
   componentDidMount = () => {
     this.props.fetchProjectsRequest()
@@ -11,9 +10,15 @@ class Projects extends Component {
   render() {
     return (
       <div>
-        projects
+        this.props.projects
       </div>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    projects: state.projects
   }
 }
 
@@ -21,4 +26,4 @@ const mapDispatchToProps = dispatch => ({
   fetchProjectsRequest: () => dispatch(fetchProjectsRequest())
 })
 
-export default connect(null, mapDispatchToProps)(Projects);
+export default connect(mapStateToProps, mapDispatchToProps)(Projects);

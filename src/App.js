@@ -3,8 +3,11 @@ import './App.css';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Projects from './components/Projects';
+import history from './redux/history';
+import {connect} from 'react-redux';
+import {logoutUserRequest} from './redux/actions';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch,
   Route,
   Link,
@@ -14,11 +17,29 @@ import {
 } from "react-router-dom";
 
 export class App extends Component {
+  state = {
+    showLogoutButton: false
+  }
+
+  componentDidMount(){
+    if (!!localStorage.getItem('token')){
+      this.setState({showLogoutButton: true})
+    }
+}
+
+  handleClick = event => {
+    this.props.logoutUserRequest()
+  }
+
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <div>
-          <AuthButton />
+          {
+            this.state.showLogoutButton
+            ? <button onClick={this.handleClick}>Log Out</button>
+            : null
+          }
           <Switch>
             <Route path="/signin">
               <SignIn />
@@ -34,23 +55,6 @@ export class App extends Component {
       </Router>
     );
   }
-}
-
-function AuthButton() {
-  return localStorage.getItem('token') ? (
-    <p>
-      Welcome!{" "}
-      <button
-        onClick={() => {
-          localStorage.removeItem('token');
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
-  );
 }
 
 function PrivateRoute({ children, ...rest }) {
@@ -73,4 +77,9 @@ function PrivateRoute({ children, ...rest }) {
   );
 }
 
-export default App;
+const mapDispatchToProps = {
+  logoutUserRequest: logoutUserRequest
+}
+
+
+export default connect(null, mapDispatchToProps)(App);

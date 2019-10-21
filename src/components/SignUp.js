@@ -43,7 +43,7 @@ class Signup extends Component {
           /><br/>
 
         <label>Email</label>
-        <textarea
+        <input
           name='email'
           placeholder='email'
           value={this.state.email}
