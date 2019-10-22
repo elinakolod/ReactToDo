@@ -2,7 +2,12 @@ import { combineReducers } from 'redux'
 
 const initialState = {
   login: !!localStorage.getItem('token'),
-  projects: {}
+}
+
+const entitiesInitState = {
+  projects: {},
+  comments: {},
+  tasks: {}
 }
 
 export default function auth(state = initialState, action) {
@@ -16,10 +21,10 @@ export default function auth(state = initialState, action) {
   }
 }
 
-export function projects(state = initialState, action) {
+export function entities(state = entitiesInitState, action) {
   switch (action.type) {
     case 'FETCH_PROJECTS':
-      return {...state, projects: action.payload }
+      return {...state, ...action.payload.entities }
     default:
       return state;
   }
@@ -27,5 +32,5 @@ export function projects(state = initialState, action) {
 
 export const mainReducer = combineReducers({
   auth,
-  projects
+  entities
 });

@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
 import history from './history'
-import normalize from 'json-api-normalizer'
-import { Binding } from '@babel/traverse';
+import normalize from 'jsonapi-normalizer'
+import { Binding } from '@babel/traverse'
 
 const headers = {
   'Content-Type': 'application/json',

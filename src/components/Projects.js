@@ -7,18 +7,29 @@ class Projects extends Component {
     this.props.fetchProjectsRequest()
   }
 
-  render() {
+  renderProject(project) {
     return (
       <div>
-        this.props.projects
+        {project.id}
+
+        </div>
+    )
+  }
+
+  render() {
+    console.log(this.props.projects)
+    return (
+      <div>
+        { this.props.projects.map(this.renderProject) }
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
+  debugger
   return {
-    projects: state.projects
+    projects: Object.values(state.entities.projects)
   }
 }
 
