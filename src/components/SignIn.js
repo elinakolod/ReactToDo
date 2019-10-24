@@ -1,39 +1,11 @@
-//import axios from 'axios';
-
-//class SignIn extends Component {
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-  //     headers: []
-  //   }
-  // }
-
-  // getTasks() {
-  //   let params = {
-  //     email: 'test10@i.ua',
-  //     password: 'BoraBora1',
-  //     password_confirmation: 'BoraBora1'
-  //   }
-
-  //   axios.post('/auth', params)
-  //   .then(response => {
-  //     this.setState({headers: response.headers})
-  //   })
-  //   .catch(error => console.log(error))
-  // }
-
-  // componentDidMount() {
-  //   this.getTasks()
-  // }
-
   import React, {Component} from 'react';
   import {connect} from 'react-redux';
   import {signInUserRequest} from '../redux/actions';
 
   class SignIn extends Component {
     state = {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     }
 
     handleChange = event => {

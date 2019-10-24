@@ -25,6 +25,10 @@ export function entities(state = entitiesInitState, action) {
   switch (action.type) {
     case 'FETCH_PROJECTS':
       return {...state, ...action.payload.entities }
+    case 'CREATE_PROJECT_SUCCESS':
+      return {...state, ...action.payload }
+    case 'CREATE_TASK_SUCCESS':
+      return {...state, ...action.payload }
     default:
       return state;
   }
