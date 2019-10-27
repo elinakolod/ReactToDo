@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import { fetchProjectsRequest } from '../redux/actions';
 import ProjectItem from './ProjectItem';
 import {createProjectRequest} from '../redux/actions';
+import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 
 class Projects extends Component {
   componentDidMount = () => {
@@ -10,7 +11,7 @@ class Projects extends Component {
   }
 
   state = {
-    projectName: ''
+    name: ''
   }
 
   handleChange = event => {
@@ -34,16 +35,25 @@ class Projects extends Component {
     return (
       <div>
         <h2>Projects</h2>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            name='projectName'
-            placeholder='Project name'
-            value={this.state.projectName}
-            onChange={this.handleChange}
-            />
-          <input type='submit'/>
-        </form>
         <hr/>
+        <br/>
+        <Form onSubmit={this.handleSubmit}>
+          <InputGroup className="mb-3">
+            <FormControl
+              name='name'
+              placeholder="Project's name"
+              aria-label="Project's name"
+              aria-describedby="basic-addon2"
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
+            <InputGroup.Append>
+              <Button variant="primary" type="submit">Create Project</Button>
+            </InputGroup.Append>
+          </InputGroup>
+        </Form>
+        <br/>
+
         <div>
           { this.props.projects.map(this.renderProject) }
         </div>

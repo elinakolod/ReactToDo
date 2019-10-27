@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import React from 'react';
@@ -13,10 +13,11 @@ const store = createStore(mainReducer, applyMiddleware(thunk));
 
 let rootElement = document.getElementById('root');
 
-render(<Provider store={store}>
-        <App />
-       </Provider>,
-       rootElement
+render(
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	rootElement
 );
 
 serviceWorker.unregister();

@@ -1,6 +1,7 @@
-  import React, {Component} from 'react';
-  import {connect} from 'react-redux';
-  import {signInUserRequest} from '../redux/actions';
+  import React, { Component } from 'react';
+  import { connect } from 'react-redux';
+  import { signInUserRequest } from '../redux/actions';
+  import { Form, Button } from 'react-bootstrap';
 
   class SignIn extends Component {
     state = {
@@ -21,28 +22,34 @@
 
     render() {
       return (
-        <form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <h1>Login</h1>
+          <hr/>
 
-          <label>Email</label>
-          <input
-            name='email'
-            placeholder='email'
-            value={this.state.email}
-            onChange={this.handleChange}
-            /><br/>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              name='email'
+              value={this.state.email}
+              onChange={this.handleChange}
+              placeholder="Enter email" />
+          </Form.Group>
 
-          <label>Password</label>
-          <input
-            type='password'
-            name='password'
-            placeholder='Password'
-            value={this.state.password}
-            onChange={this.handleChange}
-            /><br/>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              name='password'
+              value={this.state.password}
+              onChange={this.handleChange}
+              placeholder="Password" />
+          </Form.Group>
 
-          <input type='submit'/>
-        </form>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
       )
     }
   }

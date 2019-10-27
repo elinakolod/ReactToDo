@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { ListGroup } from 'react-bootstrap';
+import { removeCommentRequest } from '../redux/actions';
 
 class CommentItem extends Component {
+  removeButtonClick = event => {
+    event.preventDefault()
+    this.props.removeCommentRequest(this.props.comment.id)
+  }
+
   render() {
     return (
-      <li>
+      <ListGroup.Item variant="light">
         { this.props.comment.body }
-      </li>
+        <a href="#" className="close-comment" onClick={this.removeButtonClick}></a>
+      </ListGroup.Item>
     );
   }
 }
 
-export default CommentItem;
+const mapDispatchToProps = {
+  removeCommentRequest: removeCommentRequest
+}
+
+export default connect(null, mapDispatchToProps)(CommentItem);

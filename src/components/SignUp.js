@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {signUpUserRequest} from '../redux/actions';
+import { Form, Button } from 'react-bootstrap';
 
 class Signup extends Component {
   state = {
@@ -23,44 +24,52 @@ class Signup extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
         <h1>Sign Up For An Account</h1>
+        <hr/>
 
-        <label>First Name</label>
-        <input
-          name='firstName'
-          placeholder='first name'
-          value={this.state.firstName}
-          onChange={this.handleChange}
-          /><br/>
+        <Form.Group controlId="formBasicFirstName">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+              name='firstName'
+              value={this.state.firstName}
+              onChange={this.handleChange}
+              placeholder="First Name" />
+        </Form.Group>
 
-        <label>Last Name</label>
-        <input
-          name='lastName'
-          placeholder='last name'
-          value={this.state.lastName}
-          onChange={this.handleChange}
-          /><br/>
+        <Form.Group controlId="formBasicLastName">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
+              name='lastName'
+              value={this.state.lastName}
+              onChange={this.handleChange}
+              placeholder="Last Name" />
+        </Form.Group>
 
-        <label>Email</label>
-        <input
-          name='email'
-          placeholder='email'
-          value={this.state.email}
-          onChange={this.handleChange}
-          /><br/>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            name='email'
+            value={this.state.email}
+            onChange={this.handleChange}
+            placeholder="Enter email" />
+        </Form.Group>
 
-        <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          placeholder='Password'
-          value={this.state.password}
-          onChange={this.handleChange}
-          /><br/>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name='password'
+            value={this.state.password}
+            onChange={this.handleChange}
+            placeholder="Password" />
+        </Form.Group>
 
-        <input type='submit'/>
-      </form>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     )
   }
 }

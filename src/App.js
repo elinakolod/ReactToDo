@@ -6,6 +6,7 @@ import Projects from './components/Projects';
 import history from './redux/history';
 import {connect} from 'react-redux';
 import {logoutUserRequest} from './redux/actions';
+import { Container, Col, Row, Button } from 'react-bootstrap';
 import {
   Router,
   Switch,
@@ -34,24 +35,32 @@ export class App extends Component {
   render() {
     return (
       <Router history={history}>
-        <div>
-          {
-            this.state.showLogoutButton
-            ? <button onClick={this.handleClick}>Log Out</button>
-            : null
-          }
-          <Switch>
-            <Route path="/signin">
-              <SignIn />
-            </Route>
-            <Route path="/signup">
-              <SignUp />
-            </Route>
-            <PrivateRoute path="/">
-              <Projects />
-            </PrivateRoute>
-          </Switch>
-        </div>
+        <Container style={{marginTop: '50px', width: '100%'}}>
+          <Row>
+            <Col xs lg="3"/>
+            <Col md="auto" style={{backgroundColor: 'white', padding: '30px', borderRadius: '10px'}}>             <div>
+                <Switch>
+                  <Route path="/signin">
+                    <SignIn />
+                  </Route>
+                  <Route path="/signup">
+                    <SignUp />
+                  </Route>
+                  <PrivateRoute path="/">
+                    <Projects />
+                  </PrivateRoute>
+                </Switch>
+              </div>
+            </Col>
+            <Col xs lg="3">
+              {
+                this.state.showLogoutButton
+                ? <Button variant="primary" type="submit" onClick={this.handleClick}>Log Out</Button>
+                : null
+              }
+            </Col>
+          </Row>
+        </Container>
       </Router>
     );
   }

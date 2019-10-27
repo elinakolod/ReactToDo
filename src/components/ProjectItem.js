@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { pick, values } from 'lodash';
 import TaskItem from './TaskItem';
-import {createTaskRequest} from '../redux/actions';
+import { createTaskRequest, removeProjectRequest } from '../redux/actions';
+import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 
 class ProjectItem extends Component {
   state = {
-    taskName: ''
+    name: ''
   }
 
   handleChange = event => {
@@ -20,6 +21,11 @@ class ProjectItem extends Component {
     this.props.createTaskRequest(this.state, this.props.project.id)
   }
 
+  removeButtonClick = event => {
+    event.preventDefault()
+    this.props.removeProjectRequest(this.props.project.id)
+  }
+
   renderTask(task) {
     return (
       <TaskItem task={task} key={task.id}/>
@@ -30,19 +36,30 @@ class ProjectItem extends Component {
     console.log(this.props.tasks)
     return (
       <div>
-        <h4>{ this.props.project.name }</h4>
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              name='taskName'
-              placeholder='Task name'
-              value={this.state.taskName}
-              onChange={this.handleChange}
+        <h3>{ this.props.project.name }</h3>
+        <Button variant="outline-danger" onClick={this.removeButtonClick}>Remove</Button>
+        <div style={{paddingTop: '10px'}}>
+          <Form onSubmit={this.handleSubmit}>
+            <InputGroup className="mb-3">
+              <FormControl
+                name='name'
+                placeholder="Task's name"
+                aria-label="Task's name"
+                aria-describedby="basic-addon2"
+                value={this.state.name}
+                onChange={this.handleChange}
               />
-            <input type='submit'/>
-          </form>
-          { this.props.tasks.map(this.renderTask) }
+              <InputGroup.Append>
+                <Button variant="primary" type="submit">Add Task</Button>
+              </InputGroup.Append>
+            </InputGroup>
+          </Form>
+
+          <ListGroup>
+            { this.props.tasks.map(this.renderTask) }
+          </ListGroup>
         </div>
+        <br/>
       </div>
     );
   }
@@ -50,13 +67,13 @@ class ProjectItem extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    tasks: values(pick(state.entities.tasks, props.project.tasks.map(task => task.id))),
-    task: state.task
+    tasks: values(pick(state.entities.tasks, props.project.tasks.map(task => task.id)))
   }
 }
 
 const mapDispatchToProps = {
-  createTaskRequest: createTaskRequest
+  createTaskRequest: createTaskRequest,
+  removeProjectRequest: removeProjectRequest
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectItem);
