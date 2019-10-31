@@ -83,7 +83,25 @@ export const removeProjectRequest = (project_id) => {
       }
     })
     .then(response => {
-      dispatch(projectDeleteRequestSuccess(response.data))
+      dispatch(projectDeleteRequestSuccess(project_id))
+    })
+    .catch(error => console.log(error))
+  }
+}
+
+export const updateProjectRequest = (project, project_id) => {
+  return dispatch => {
+    axios('http://localhost:3000/api/v1/projects/' + project_id, {
+      method: "put",
+      data: project,
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': localStorage.token
+      }
+    })
+    .then(response => {
+      dispatch(projectUpdateRequestSuccess(normalize(response.data)))
     })
     .catch(error => console.log(error))
   }
@@ -107,7 +125,7 @@ export const createTaskRequest = (task, project_id) => {
   }
 }
 
-export const removeTaskRequest = (task_id) => {
+export const removeTaskRequest = (project_id, task_id) => {
   return dispatch => {
     axios('http://localhost:3000/api/v1/tasks/' + task_id, {
       method: "delete",
@@ -118,7 +136,25 @@ export const removeTaskRequest = (task_id) => {
       }
     })
     .then(response => {
-      dispatch(taskDeleteRequestSuccess(response.data))
+      dispatch(taskDeleteRequestSuccess(project_id, task_id))
+    })
+    .catch(error => console.log(error))
+  }
+}
+
+export const updateTaskRequest = (task, task_id) => {
+  return dispatch => {
+    axios('http://localhost:3000/api/v1/tasks/' + task_id, {
+      method: "put",
+      data: task,
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': localStorage.token
+      }
+    })
+    .then(response => {
+      dispatch(taskUpdateRequestSuccess(normalize(response.data)))
     })
     .catch(error => console.log(error))
   }
@@ -142,7 +178,7 @@ export const createCommentRequest = (comment, task_id) => {
   }
 }
 
-export const removeCommentRequest = (comment_id) => {
+export const removeCommentRequest = (comment_id, task_id) => {
   return dispatch => {
     axios('http://localhost:3000/api/v1/comments/' + comment_id, {
       method: "delete",
@@ -153,7 +189,7 @@ export const removeCommentRequest = (comment_id) => {
       }
     })
     .then(response => {
-      dispatch(commentDeleteRequestSuccess(response.data))
+      dispatch(commentDeleteRequestSuccess(comment_id, task_id))
     })
     .catch(error => console.log(error))
   }
@@ -178,6 +214,11 @@ const projectCreateRequestSuccess = project => ({
   payload: project
 })
 
+const projectUpdateRequestSuccess = project => ({
+  type: 'UPDATE_PROJECT_SUCCESS',
+  payload: project
+})
+
 const projectDeleteRequestSuccess = project_id => ({
   type: 'DELETE_PROJECT_SUCCESS',
   payload: project_id
@@ -188,9 +229,15 @@ const taskCreateRequestSuccess = task => ({
   payload: task
 })
 
-const taskDeleteRequestSuccess = task_id => ({
+const taskDeleteRequestSuccess = (project_id, task_id) => ({
   type: 'DELETE_TASK_SUCCESS',
-  payload: task_id
+  task_id,
+  project_id
+})
+
+const taskUpdateRequestSuccess = task => ({
+  type: 'UPDATE_TASK_SUCCESS',
+  payload: task
 })
 
 const commentCreateRequestSuccess = comment => ({
@@ -198,7 +245,8 @@ const commentCreateRequestSuccess = comment => ({
   payload: comment
 })
 
-const commentDeleteRequestSuccess = comment_id => ({
+const commentDeleteRequestSuccess = (comment_id, task_id) => ({
   type: 'DELETE_COMMENT_SUCCESS',
-  payload: comment_id
+  task_id,
+  comment_id
 })

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { pick, values } from 'lodash';
+import { pick, values, map } from 'lodash';
 import CommentItem from './CommentItem';
-import { removeTaskRequest, createCommentRequest } from '../redux/actions';
+import { removeTaskRequest, createCommentRequest, updateTaskRequest } from '../redux/actions';
 import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 
 class TaskItem extends Component {
   state = {
-    body: ''
+    body: '',
+    show: true
   }
 
   handleChange = event => {
@@ -28,23 +29,57 @@ class TaskItem extends Component {
   }
 
   removeButtonClick = event => {
-    event.preventDefault()
-    this.props.removeTaskRequest(this.props.task.id)
+    this.props.removeTaskRequest(this.props.task.project_id, this.props.task.id)
   }
 
-  alertClicked = () => {
-    alert('You clicked the third ListGroupItem');
+  checkTask = event => {
+    let task = { done: event.target.checked }
+    this.props.updateTaskRequest(task, this.props.task.id)
+  }
+
+  editButtonClick = event => {
+    let task_id = this.props.task.id
+    let input = document.getElementById('taskNameInput' + task_id)
+    let name_span = document.getElementById('taskName' + task_id)
+    document.getElementById('taskHeader' + task_id).style.display = 'none'
+    input.style.display = 'inline'
+    input.value = this.props.task.name
+    name_span.append(input)
+  }
+
+  updateTaskName = event => {
+    if (event.key === 'Enter') {
+      let task_id = this.props.task.id
+      let task = { name: event.target.value }
+      this.props.updateTaskRequest(task, task_id)
+      event.target.style.display = 'none'
+      document.getElementById('taskHeader' + task_id).style.display = 'inline'
+    }
   }
 
   render() {
-    console.log(this.props.comments)
     return (
       <ListGroup.Item action>
-        <h6>{ this.props.task.name }</h6>
-        <a href="#" className="close-task" onClick={this.removeButtonClick}></a>
+        <input
+          type="checkbox"
+          defaultChecked={this.props.task.done}
+          onChange={this.checkTask} />
+        <span id={ 'taskName' + this.props.task.id }>
+          <h6
+            id={ 'taskHeader' + this.props.task.id }
+            className={ this.props.task.done ? "done" : '' }>
+            { this.props.task.name }
+          </h6>
+        </span>
+        <input
+          id={ 'taskNameInput' + this.props.task.id }
+          className= 'taskNameInput'
+          onKeyDown={this.updateTaskName} />
+        <a href="#" onClick={this.editButtonClick}>Edit</a>
+        <a href="#" className="close-task" onClick={this.removeButtonClick} />
 
         <ListGroup>
-          { this.props.tasks.map(this.renderComment) }
+          { this.props.comments.map(this.renderComment) }
         </ListGroup>
 
         <Form onSubmit={this.handleSubmit}>
@@ -69,13 +104,14 @@ class TaskItem extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    tasks: values(pick(state.entities.comments, props.task.comments.map(comment => comment.id)))
+    comments: values(pick(state.entities.comments, props.task.comments.map(comment => comment.id)))
   }
 }
 
 const mapDispatchToProps = {
   removeTaskRequest: removeTaskRequest,
-  createCommentRequest: createCommentRequest
+  createCommentRequest: createCommentRequest,
+  updateTaskRequest: updateTaskRequest
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);

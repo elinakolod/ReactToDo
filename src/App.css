@@ -54,3 +54,30 @@ h3 {
 	display: inline-block;
 	margin-right: 10px;
 }
+
+input[type="checkbox"]{
+  display: inline;
+  margin-right: 10px;
+}
+
+h6 {
+  display: inline;
+  margin-right: 10px;
+}
+
+.taskNameInput{
+  display: none;
+  margin-bottom: 10px;
+}
+
+.projectNameInput{
+  display: none;
+}
+
+.done{
+  text-decoration: line-through;
+}
+
+.btn-outline-danger{
+  margin-left: 10px;
+}

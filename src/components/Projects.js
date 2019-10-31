@@ -32,6 +32,7 @@ class Projects extends Component {
   }
 
   render() {
+    console.log(this.props.projects)
     return (
       <div>
         <h2>Projects</h2>
@@ -64,8 +65,7 @@ class Projects extends Component {
 
 const mapStateToProps = state => {
   return {
-    projects: Object.values(state.entities.projects),
-    project: state.project
+    projects: Object.values(state.entities.projects)
   }
 }
 

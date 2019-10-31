@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { pick, values } from 'lodash';
+import { pick, values, map } from 'lodash';
 import TaskItem from './TaskItem';
-import { createTaskRequest, removeProjectRequest } from '../redux/actions';
+import { createTaskRequest, removeProjectRequest, updateProjectRequest } from '../redux/actions';
 import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 
 class ProjectItem extends Component {
@@ -26,6 +26,26 @@ class ProjectItem extends Component {
     this.props.removeProjectRequest(this.props.project.id)
   }
 
+  editButtonClick = event => {
+    let project_id = this.props.project.id
+    let project_input = document.getElementById('projectNameInput' + project_id)
+    let name_span = document.getElementById('projectName' + project_id)
+    document.getElementById('projectHeader' + project_id).style.display = 'none'
+    project_input.style.display = 'inline'
+    project_input.value = this.props.project.name
+    name_span.append(project_input)
+  }
+
+  updateProjectName = event => {
+    if (event.key === 'Enter') {
+      let project_id = this.props.project.id
+      let project = { name: event.target.value }
+      this.props.updateProjectRequest(project, project_id)
+      event.target.style.display = 'none'
+      document.getElementById('projectHeader' + project_id).style.display = 'inline'
+    }
+  }
+
   renderTask(task) {
     return (
       <TaskItem task={task} key={task.id}/>
@@ -33,10 +53,18 @@ class ProjectItem extends Component {
   }
 
   render() {
-    console.log(this.props.tasks)
     return (
       <div>
-        <h3>{ this.props.project.name }</h3>
+        <span id={ 'projectName' + this.props.project.id }>
+          <h3 id={'projectHeader' + this.props.project.id }>
+            { this.props.project.name }
+          </h3>
+        </span>
+        <input
+          id={ 'projectNameInput' + this.props.project.id}
+          className='projectNameInput'
+          onKeyDown={this.updateProjectName} />
+        <a href="#" onClick={this.editButtonClick}>Edit</a>
         <Button variant="outline-danger" onClick={this.removeButtonClick}>Remove</Button>
         <div style={{paddingTop: '10px'}}>
           <Form onSubmit={this.handleSubmit}>
@@ -73,7 +101,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   createTaskRequest: createTaskRequest,
-  removeProjectRequest: removeProjectRequest
+  removeProjectRequest: removeProjectRequest,
+  updateProjectRequest: updateProjectRequest
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectItem);
