@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import { ListGroup } from 'react-bootstrap';
 import { removeCommentRequest } from '../redux/actions';
 
-class CommentItem extends Component {
+export class CommentItem extends Component {
   removeButtonClick = event => {
     event.preventDefault()
     this.props.removeCommentRequest(this.props.comment.id, this.props.comment.task_id)
