@@ -11,7 +11,7 @@ const entitiesInitState = {
   tasks: {}
 }
 
-export default function auth(state = initialState, action) {
+export function auth(state = initialState, action) {
   switch (action.type) {
     case 'LOGIN_USER':
       return {...state, login: !!localStorage.getItem('token') }
