@@ -5,7 +5,7 @@ import TaskItem from './TaskItem';
 import { createTaskRequest, removeProjectRequest, updateProjectRequest } from '../redux/actions';
 import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 
-class ProjectItem extends Component {
+export class ProjectItem extends Component {
   state = {
     name: ''
   }

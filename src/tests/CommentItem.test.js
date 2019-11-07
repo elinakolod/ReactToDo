@@ -1,22 +1,26 @@
 import React from 'react';
 import {CommentItem} from '../components/CommentItem';
-import {configure, shallow} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 
-configure({ adapter: new Adapter() });
+const state = {
+  entities: {
+    comments: {
+      0: {id: 1, body: 'Comment body'}
+    }
+  }
+}
+
+let comment = {
+  id: 1,
+  body: 'Comment body',
+  task_id: 1
+}
 
 const defaultProps = {
-  id: 1,
-  projectId: 1,
-  editMode: false,
-  definition: 'definition',
-  newDefinition: '',
-  handleNewDefinitionChange: jest.fn(),
-  handleEditClick: jest.fn(),
-  handleRemoveClick: jest.fn()
+  comment: comment
 }
 
 it('matches snapshot', () => {
-  const wrapper = shallow(<CommentItem {...defaultProps} />);
+  const wrapper = <CommentItem {...defaultProps}/>
+
   expect(wrapper).toMatchSnapshot();
 });

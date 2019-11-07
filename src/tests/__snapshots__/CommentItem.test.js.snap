@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<CommentItem
+  comment={
+    Object {
+      "body": "Comment body",
+      "id": 1,
+      "task_id": 1,
+    }
+  }
+/>
+`;

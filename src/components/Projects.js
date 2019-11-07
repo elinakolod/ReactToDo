@@ -5,7 +5,7 @@ import ProjectItem from './ProjectItem';
 import {createProjectRequest} from '../redux/actions';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 
-class Projects extends Component {
+export class Projects extends Component {
   componentDidMount = () => {
     this.props.fetchProjectsRequest()
   }

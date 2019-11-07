@@ -5,7 +5,7 @@ import CommentItem from './CommentItem';
 import { removeTaskRequest, createCommentRequest, updateTaskRequest } from '../redux/actions';
 import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 
-class TaskItem extends Component {
+export class TaskItem extends Component {
   state = {
     body: '',
     show: true

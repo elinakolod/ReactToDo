@@ -14,20 +14,30 @@ describe('actions', () => {
 
   let projects = [{
     id: 1,
-    name: 'test project'
+    type: 'projects',
+    attributes: {
+      name: 'test project'
+    }
   }]
 
-  let tasks = [{
+  let task = {
     id: 2,
-    project_id: 1,
-    name: 'test task'
-  }]
+    type: 'tasks',
+    attributes: {
+      name: 'task',
+      done: false,
+      project_id: 1
+    }
+  }
 
-  let comments = [{
+  let comment = {
     id: 3,
-    task_id: 2,
-    body: 'test comment'
-  }]
+    type: 'comments',
+    attributes: {
+      task_id: 2,
+      body: 'test comment'
+    }
+  }
 
   it('fetchs projects', async () => {
     const response = {
@@ -37,8 +47,8 @@ describe('actions', () => {
     let expectedAction = {
       type: 'FETCH_PROJECTS',
       payload: {
-        result: { undefined: [ 1 ] },
-        entities: { undefined: { '1': { id: 1 } } }
+        result: { projects: [ 1 ] },
+        entities: { projects: { '1': { id: 1, name: 'test project' } } }
       }
     }
 
@@ -58,8 +68,8 @@ describe('actions', () => {
     let expectedAction = {
       type: 'CREATE_PROJECT_SUCCESS',
       payload: {
-        result: { undefined: [ 1 ] },
-        entities: { undefined: { '1': { id: 1 } } }
+        result: { projects: [ 1 ] },
+        entities: { projects: { '1': { id: 1, name: 'test project' } } }
       }
     }
 
@@ -73,44 +83,48 @@ describe('actions', () => {
     const response = {
       data: [{
         id: 1,
-        name: 'New name'
+        type: 'projects',
+        attributes: {
+          name: 'new name'
+        }
       }]
     }
 
     let project = {
-      name: 'New name'
+      id: 1,
+      name: 'new name'
     }
 
     let expectedAction = {
       type: 'UPDATE_PROJECT_SUCCESS',
       payload: {
-        result: { undefined: [ 1 ] },
-        entities: { undefined: { '1': { id: 1 } } }
+        result: { projects: [ 1 ] },
+        entities: { projects: { '1': { id: 1, name: 'new name' } } }
       }
     }
 
-    mock.onPut('http://localhost:3000/api/v1/projects/' + projects[0].id).reply(200, response)
+    mock.onPut('http://localhost:3000/api/v1/projects/' + project.id).reply(200, response)
 
-    await store.dispatch(actions.updateProjectRequest(project, projects[0].id))
+    await store.dispatch(actions.updateProjectRequest(project, project.id))
     expect(store.getActions()).toEqual([expectedAction])
   })
 
   it('creates task', async () => {
     const response = {
-      data: tasks
+      data: task
     }
 
     let expectedAction = {
       type: 'CREATE_TASK_SUCCESS',
       payload: {
-        result: { undefined: [ 2 ] },
-        entities: { undefined: { '2': { id: 2 } } }
+        result: { tasks: [ 2 ] },
+        entities: { tasks: { '2': { id: 2, done: false, name: 'task', project_id: 1 } } }
       }
     }
 
     mock.onPost('http://localhost:3000/api/v1/projects/' + projects[0].id + '/tasks').reply(200, response)
 
-    await store.dispatch(actions.createTaskRequest(tasks[0], tasks[0].project_id))
+    await store.dispatch(actions.createTaskRequest(task, projects[0].id))
     expect(store.getActions()).toEqual([expectedAction])
   })
 
@@ -118,44 +132,50 @@ describe('actions', () => {
     const response = {
       data: [{
         id: 2,
-        name: 'New name'
+        type: 'tasks',
+        attributes: {
+          name: 'New name',
+          done: false,
+          project_id: 1
+        }
       }]
     }
 
     let task = {
+      id: 2,
       name: 'New name'
     }
 
     let expectedAction = {
       type: 'UPDATE_TASK_SUCCESS',
       payload: {
-        result: { undefined: [ 2 ] },
-        entities: { undefined: { '2': { id: 2 } } }
+        result: { tasks: [ 2 ] },
+        entities: { tasks: { '2': { id: 2, done: false, name: 'New name', project_id: 1 } } }
       }
     }
 
-    mock.onPut('http://localhost:3000/api/v1/tasks/' + tasks[0].id).reply(200, response)
+    mock.onPut('http://localhost:3000/api/v1/tasks/' + task.id).reply(200, response)
 
-    await store.dispatch(actions.updateTaskRequest(task, tasks[0].id))
+    await store.dispatch(actions.updateTaskRequest(task, task.id))
     expect(store.getActions()).toEqual([expectedAction])
   })
 
   it('creates comment', async () => {
     const response = {
-      data: comments
+      data: comment
     }
 
     let expectedAction = {
       type: 'CREATE_COMMENT_SUCCESS',
       payload: {
-        result: { undefined: [ 3 ] },
-        entities: { undefined: { '3': { id: 3 } } }
+        result: { comments: [ 3 ] },
+        entities: { comments: { '3': { id: 3, task_id: 2, body: 'test comment' } } }
       }
     }
 
-    mock.onPost('http://localhost:3000/api/v1/tasks/' + tasks[0].id + '/comments').reply(200, response)
+    mock.onPost('http://localhost:3000/api/v1/tasks/' + comment.task_id + '/comments').reply(200, response)
 
-    await store.dispatch(actions.createCommentRequest(comments[0], comments[0].task_id))
+    await store.dispatch(actions.createCommentRequest(comment, comment.task_id))
     expect(store.getActions()).toEqual([expectedAction])
   })
 
@@ -174,26 +194,57 @@ describe('actions', () => {
   it('deletes task', async () => {
     let expectedAction = {
       type: 'DELETE_TASK_SUCCESS',
-      task_id: tasks[0].id,
-      project_id: tasks[0].project_id
+      task_id: task.id,
+      project_id: task.project_id
     }
 
-    mock.onDelete('http://localhost:3000/api/v1/tasks/' + tasks[0].id).reply(204)
+    mock.onDelete('http://localhost:3000/api/v1/tasks/' + task.id).reply(204)
 
-    await store.dispatch(actions.removeTaskRequest(tasks[0].project_id, tasks[0].id))
+    await store.dispatch(actions.removeTaskRequest(task.project_id, task.id))
     expect(store.getActions()).toEqual([expectedAction])
   })
 
   it('deletes comment', async () => {
     let expectedAction = {
       type: 'DELETE_COMMENT_SUCCESS',
-      comment_id: comments[0].id,
-      task_id: comments[0].task_id
+      comment_id: comment.id,
+      task_id: comment.task_id
     }
 
-    mock.onDelete('http://localhost:3000/api/v1/comments/' + comments[0].id).reply(204)
+    mock.onDelete('http://localhost:3000/api/v1/comments/' + comment.id).reply(204)
 
-    await store.dispatch(actions.removeCommentRequest(comments[0].id, comments[0].task_id))
+    await store.dispatch(actions.removeCommentRequest(comment.id, comment.task_id))
+    expect(store.getActions()).toEqual([expectedAction])
+  })
+
+  it('logins user', async () => {
+    const response = {
+      data: {
+        csrf: 'token'
+      }
+    }
+
+    let user = {
+      name: 'name',
+      password: 'pass'
+    }
+
+    let expectedAction = {
+      type: 'LOGIN_USER',
+    }
+
+    mock.onPost('http://localhost:3000/api/v1/signins').reply(200, response)
+
+    await store.dispatch(actions.signInUserRequest(user))
+    expect(store.getActions()).toEqual([expectedAction])
+  })
+
+  it('logouts user', async () => {
+    let expectedAction = {
+      type: 'LOGOUT_USER',
+    }
+
+    await store.dispatch(actions.logoutUserRequest())
     expect(store.getActions()).toEqual([expectedAction])
   })
 })
