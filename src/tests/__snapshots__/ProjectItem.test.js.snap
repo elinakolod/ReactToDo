@@ -1,44 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ProjectItem matches ProjectItem snapshot 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "store": Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-      },
-      "subscription": Subscription {
-        "handleChangeWrapper": [Function],
-        "listeners": Object {
-          "notify": [Function],
-        },
-        "onStateChange": [Function],
-        "parentSub": undefined,
-        "store": Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        },
-        "unsubscribe": null,
-      },
-    }
-  }
->
-  <ProjectItem
-    project={
+<div>
+  <span
+    id="projectName1"
+  >
+    <h3
+      id="projectHeader1"
+    />
+  </span>
+  <a
+    href="#"
+    onClick={[Function]}
+  >
+    Edit
+  </a>
+  <button
+    className="btn btn-outline-danger"
+    disabled={false}
+    onClick={[Function]}
+    type="button"
+  >
+    Remove
+  </button>
+  <div
+    style={
       Object {
-        "id": 1,
-        "name": "Project name",
+        "paddingTop": "10px",
       }
     }
-  />
-</ContextProvider>
+  >
+    <form
+      className=""
+      onSubmit={[Function]}
+    >
+      <div
+        className="mb-3 input-group"
+      >
+        <input
+          aria-describedby="basic-addon2"
+          aria-label="Task's name"
+          className="form-control"
+          name="new_task_name"
+          onChange={[Function]}
+          placeholder="Task's name"
+          value=""
+        />
+        <div
+          className="input-group-append"
+        >
+          <button
+            className="btn btn-primary"
+            disabled={false}
+            type="submit"
+          >
+            Add Task
+          </button>
+        </div>
+      </div>
+    </form>
+    <div
+      className="list-group"
+      onKeyDown={[Function]}
+    />
+  </div>
+  <br />
+</div>
 `;

@@ -5,9 +5,11 @@ import TaskItem from './TaskItem';
 import { createTaskRequest, removeProjectRequest, updateProjectRequest } from '../redux/actions';
 import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 
-export class ProjectItem extends Component {
+class ProjectItem extends Component {
   state = {
-    name: ''
+    new_task_name: '',
+    name: this.props.project.name,
+    editFormVisible: false
   }
 
   handleChange = event => {
@@ -18,22 +20,17 @@ export class ProjectItem extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    this.props.createTaskRequest(this.state, this.props.project.id)
+    this.props.createTaskRequest({ name: this.state.new_task_name }, this.props.project.id)
+    this.setState({new_task_name: ''})
   }
 
   removeButtonClick = event => {
     event.preventDefault()
     this.props.removeProjectRequest(this.props.project.id)
   }
-
+c
   editButtonClick = event => {
-    let project_id = this.props.project.id
-    let project_input = document.getElementById('projectNameInput' + project_id)
-    let name_span = document.getElementById('projectName' + project_id)
-    document.getElementById('projectHeader' + project_id).style.display = 'none'
-    project_input.style.display = 'inline'
-    project_input.value = this.props.project.name
-    name_span.append(project_input)
+    this.setState({editFormVisible: true})
   }
 
   updateProjectName = event => {
@@ -41,8 +38,7 @@ export class ProjectItem extends Component {
       let project_id = this.props.project.id
       let project = { name: event.target.value }
       this.props.updateProjectRequest(project, project_id)
-      event.target.style.display = 'none'
-      document.getElementById('projectHeader' + project_id).style.display = 'inline'
+      this.setState({editFormVisible: false})
     }
   }
 
@@ -56,25 +52,28 @@ export class ProjectItem extends Component {
     return (
       <div>
         <span id={ 'projectName' + this.props.project.id }>
-          <h3 id={'projectHeader' + this.props.project.id }>
-            { this.props.project.name }
-          </h3>
+          { !this.state.editFormVisible ?
+            <h3 id={'projectHeader' + this.props.project.id }>
+              { this.props.project.name }
+            </h3> : <input
+              id={ 'projectNameInput' + this.props.project.id}
+              name='name'
+              value={ this.state.name }
+              onKeyDown={this.updateProjectName}
+              onChange={this.handleChange} />
+          }
         </span>
-        <input
-          id={ 'projectNameInput' + this.props.project.id}
-          className='projectNameInput'
-          onKeyDown={this.updateProjectName} />
         <a href="#" onClick={this.editButtonClick}>Edit</a>
         <Button variant="outline-danger" onClick={this.removeButtonClick}>Remove</Button>
         <div style={{paddingTop: '10px'}}>
           <Form onSubmit={this.handleSubmit}>
             <InputGroup className="mb-3">
               <FormControl
-                name='name'
+                name='new_task_name'
                 placeholder="Task's name"
                 aria-label="Task's name"
                 aria-describedby="basic-addon2"
-                value={this.state.name}
+                value={this.state.new_task_name}
                 onChange={this.handleChange}
               />
               <InputGroup.Append>

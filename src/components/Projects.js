@@ -5,7 +5,7 @@ import ProjectItem from './ProjectItem';
 import {createProjectRequest} from '../redux/actions';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 
-export class Projects extends Component {
+class Projects extends Component {
   componentDidMount = () => {
     this.props.fetchProjectsRequest()
   }
@@ -32,7 +32,6 @@ export class Projects extends Component {
   }
 
   render() {
-    console.log(this.props.projects)
     return (
       <div>
         <h2>Projects</h2>

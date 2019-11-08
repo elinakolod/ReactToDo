@@ -1,46 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TaskItem matches TaskItem snapshot 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "store": Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-      },
-      "subscription": Subscription {
-        "handleChangeWrapper": [Function],
-        "listeners": Object {
-          "notify": [Function],
-        },
-        "onStateChange": [Function],
-        "parentSub": undefined,
-        "store": Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        },
-        "unsubscribe": null,
-      },
-    }
-  }
+<button
+  className="list-group-item list-group-item-action"
+  disabled={false}
+  onClick={[Function]}
 >
-  <TaskItem
-    task={
-      Object {
-        "done": false,
-        "id": 2,
-        "name": "Task name",
-        "project_id": 1,
-      }
-    }
+  <input
+    onChange={[Function]}
+    type="checkbox"
   />
-</ContextProvider>
+  <span
+    id="taskName2"
+  >
+    <h6
+      className=""
+      id="taskHeader2"
+    />
+  </span>
+  <a
+    href="#"
+    onClick={[Function]}
+  >
+    Edit
+  </a>
+  <a
+    className="close-task"
+    href="#"
+    onClick={[Function]}
+  />
+  <div
+    className="list-group"
+    onKeyDown={[Function]}
+  />
+  <form
+    className=""
+    onSubmit={[Function]}
+  >
+    <div
+      className="mb-3 input-group"
+    >
+      <input
+        aria-describedby="basic-addon2"
+        aria-label="Comment's name"
+        className="form-control"
+        name="new_comment_body"
+        onChange={[Function]}
+        placeholder="Comment's name"
+        value=""
+      />
+      <div
+        className="input-group-append"
+      >
+        <button
+          className="btn btn-primary"
+          disabled={false}
+          type="submit"
+        >
+          Add Comment
+        </button>
+      </div>
+    </div>
+  </form>
+</button>
 `;

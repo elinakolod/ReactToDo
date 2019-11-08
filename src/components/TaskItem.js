@@ -5,10 +5,11 @@ import CommentItem from './CommentItem';
 import { removeTaskRequest, createCommentRequest, updateTaskRequest } from '../redux/actions';
 import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
 
-export class TaskItem extends Component {
+class TaskItem extends Component {
   state = {
-    body: '',
-    show: true
+    new_comment_body: '',
+    name: this.props.task.name,
+    editFormVisible: false
   }
 
   handleChange = event => {
@@ -19,7 +20,8 @@ export class TaskItem extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    this.props.createCommentRequest(this.state, this.props.task.id)
+    this.props.createCommentRequest({ body: this.state.new_comment_body }, this.props.task.id)
+    this.setState({new_task_name: ''})
   }
 
   renderComment(comment) {
@@ -38,13 +40,7 @@ export class TaskItem extends Component {
   }
 
   editButtonClick = event => {
-    let task_id = this.props.task.id
-    let input = document.getElementById('taskNameInput' + task_id)
-    let name_span = document.getElementById('taskName' + task_id)
-    document.getElementById('taskHeader' + task_id).style.display = 'none'
-    input.style.display = 'inline'
-    input.value = this.props.task.name
-    name_span.append(input)
+    this.setState({editFormVisible: true})
   }
 
   updateTaskName = event => {
@@ -52,8 +48,7 @@ export class TaskItem extends Component {
       let task_id = this.props.task.id
       let task = { name: event.target.value }
       this.props.updateTaskRequest(task, task_id)
-      event.target.style.display = 'none'
-      document.getElementById('taskHeader' + task_id).style.display = 'inline'
+      this.setState({editFormVisible: false})
     }
   }
 
@@ -65,16 +60,19 @@ export class TaskItem extends Component {
           defaultChecked={this.props.task.done}
           onChange={this.checkTask} />
         <span id={ 'taskName' + this.props.task.id }>
-          <h6
-            id={ 'taskHeader' + this.props.task.id }
-            className={ this.props.task.done ? "done" : '' }>
-            { this.props.task.name }
-          </h6>
+          { !this.state.editFormVisible ?
+            <h6
+              id={ 'taskHeader' + this.props.task.id }
+              className={ this.props.task.done ? "done" : '' }>
+              { this.props.task.name }
+            </h6> : <input
+                      id={ 'taskNameInput' + this.props.task.id }
+                      value={ this.state.name }
+                      name='name'
+                      onKeyDown={this.updateTaskName}
+                      onChange={this.handleChange} />
+          }
         </span>
-        <input
-          id={ 'taskNameInput' + this.props.task.id }
-          className= 'taskNameInput'
-          onKeyDown={this.updateTaskName} />
         <a href="#" onClick={this.editButtonClick}>Edit</a>
         <a href="#" className="close-task" onClick={this.removeButtonClick} />
 
@@ -85,11 +83,11 @@ export class TaskItem extends Component {
         <Form onSubmit={this.handleSubmit}>
             <InputGroup className="mb-3">
               <FormControl
-                name='body'
+                name='new_comment_body'
                 placeholder="Comment's name"
                 aria-label="Comment's name"
                 aria-describedby="basic-addon2"
-                value={this.state.body}
+                value={this.state.new_comment_body}
                 onChange={this.handleChange}
               />
               <InputGroup.Append>

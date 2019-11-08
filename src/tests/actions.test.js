@@ -55,8 +55,6 @@ describe('actions', () => {
     mock.onGet('http://localhost:3000/api/v1/projects').reply(200, response)
 
     await store.dispatch(actions.fetchProjectsRequest())
-    console.log(store.getActions()[0].payload.result)
-    console.log([expectedAction])
     expect(store.getActions()).toEqual([expectedAction])
   })
 

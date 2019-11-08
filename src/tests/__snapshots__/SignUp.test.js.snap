@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <h1>
+    Sign Up For An Account
+  </h1>
+  <hr />
+  <div
+    className="form-group"
+  >
+    <label
+      className="form-label"
+      htmlFor="formBasicFirstName"
+    >
+      First Name
+    </label>
+    <input
+      className="form-control"
+      id="formBasicFirstName"
+      name="firstName"
+      onChange={[Function]}
+      placeholder="First Name"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className="form-label"
+      htmlFor="formBasicLastName"
+    >
+      Last Name
+    </label>
+    <input
+      className="form-control"
+      id="formBasicLastName"
+      name="lastName"
+      onChange={[Function]}
+      placeholder="Last Name"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className="form-label"
+      htmlFor="formBasicEmail"
+    >
+      Email
+    </label>
+    <input
+      className="form-control"
+      id="formBasicEmail"
+      name="email"
+      onChange={[Function]}
+      placeholder="Enter email"
+      type="email"
+      value=""
+    />
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className="form-label"
+      htmlFor="formBasicPassword"
+    >
+      Password
+    </label>
+    <input
+      className="form-control"
+      id="formBasicPassword"
+      name="password"
+      onChange={[Function]}
+      placeholder="Password"
+      type="password"
+      value=""
+    />
+  </div>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;

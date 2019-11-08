@@ -1,5 +1,12 @@
 import React from 'react';
-import {CommentItem} from '../components/CommentItem';
+import CommentItem from '../components/CommentItem'
+import renderer from 'react-test-renderer'
+import configureStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux'
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares)
 
 const state = {
   entities: {
@@ -19,8 +26,10 @@ const defaultProps = {
   comment: comment
 }
 
-it('matches snapshot', () => {
-  const wrapper = <CommentItem {...defaultProps}/>
+const store = mockStore(state)
 
-  expect(wrapper).toMatchSnapshot();
+it('matches snapshot', () => {
+  const wrapper = renderer.create(<Provider store={store}><CommentItem {...defaultProps}/></Provider>)
+
+  expect(wrapper.toJSON()).toMatchSnapshot();
 });

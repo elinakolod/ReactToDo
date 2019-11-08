@@ -1,17 +1,26 @@
-import React from 'react';
-import {Projects} from '../components/Projects';
-import {configure, shallow} from 'enzyme';
-import toJson from 'enzyme-to-json';
-import Adapter from 'enzyme-adapter-react-16';
+import React from 'react'
+import Projects from '../components/Projects'
+import {configure, shallow} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import { Provider } from 'react-redux';
+import { Provider } from 'react-redux'
+import renderer from 'react-test-renderer'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares)
-configure({ adapter: new Adapter() })
+const mock = new MockAdapter(axios)
 
 describe('Projects', () => {
+  let projects = [{
+    id: 1,
+    type: 'projects',
+    attributes: {
+      name: 'test project'
+    }
+  }]
 
   const state = {
     entities: {
@@ -28,18 +37,15 @@ describe('Projects', () => {
   }
   const store = mockStore(state)
 
-  let projects = [{
-    id: 1,
-    name: 'Project name'
-  }]
-
-  const defaultProps = {
-    projects: projects
+  const response = {
+    data: projects
   }
 
-  it('matches Projects snapshot', () => {
-    const wrapper = shallow(<Provider store={store}><Projects {...defaultProps}/></Provider>)
+  mock.onGet('http://localhost:3000/api/v1/projects').reply(200, response)
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+  it('matches Projects snapshot', () => {
+    const wrapper = renderer.create(<Provider store={store}><Projects /></Provider>)
+
+    expect(wrapper.toJSON()).toMatchSnapshot()
   })
 })
