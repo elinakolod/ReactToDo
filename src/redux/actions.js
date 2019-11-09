@@ -2,13 +2,6 @@ import axios from 'axios'
 import history from './history'
 import normalize from 'jsonapi-normalizer'
 
-const reqHeaders = {
-  headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': localStorage.token
-  }
-}
-
 export const signUpUserRequest = user => dispatch => {
   return axios.post('http://localhost:3000/api/v1/signups', user,
   { withCredentials: true })

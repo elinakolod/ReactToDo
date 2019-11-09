@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { pick, values, map } from 'lodash';
+import { pick, values } from 'lodash';
 import CommentItem from './CommentItem';
 import { removeTaskRequest, createCommentRequest, updateTaskRequest } from '../redux/actions';
 import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
@@ -65,7 +65,7 @@ class TaskItem extends Component {
               id={ 'taskHeader' + this.props.task.id }
               className={ this.props.task.done ? "done" : '' }>
               { this.props.task.name }
-            </h6> : <input
+            </h6> : <Form.Control
                       id={ 'taskNameInput' + this.props.task.id }
                       value={ this.state.name }
                       name='name'

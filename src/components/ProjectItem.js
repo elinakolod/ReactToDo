@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { pick, values, map } from 'lodash';
+import { pick, values } from 'lodash';
 import TaskItem from './TaskItem';
 import { createTaskRequest, removeProjectRequest, updateProjectRequest } from '../redux/actions';
 import { Form, Button, InputGroup, FormControl, ListGroup } from 'react-bootstrap';
@@ -28,7 +28,7 @@ class ProjectItem extends Component {
     event.preventDefault()
     this.props.removeProjectRequest(this.props.project.id)
   }
-c
+
   editButtonClick = event => {
     this.setState({editFormVisible: true})
   }
@@ -55,12 +55,12 @@ c
           { !this.state.editFormVisible ?
             <h3 id={'projectHeader' + this.props.project.id }>
               { this.props.project.name }
-            </h3> : <input
-              id={ 'projectNameInput' + this.props.project.id}
-              name='name'
-              value={ this.state.name }
-              onKeyDown={this.updateProjectName}
-              onChange={this.handleChange} />
+            </h3> : <Form.Control
+                      id={ 'projectNameInput' + this.props.project.id}
+                      name='name'
+                      value={ this.state.name }
+                      onKeyDown={this.updateProjectName}
+                      onChange={this.handleChange} />
           }
         </span>
         <a href="#" onClick={this.editButtonClick}>Edit</a>

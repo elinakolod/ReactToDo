@@ -23,6 +23,7 @@ class Projects extends Component {
   handleSubmit = event => {
     event.preventDefault()
     this.props.createProjectRequest(this.state)
+    this.setState({name: ''})
   }
 
   renderProject(project) {

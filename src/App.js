@@ -11,10 +11,7 @@ import {
   Router,
   Switch,
   Route,
-  Link,
-  Redirect,
-  useHistory,
-  useLocation
+  Redirect
 } from "react-router-dom";
 
 export class App extends Component {

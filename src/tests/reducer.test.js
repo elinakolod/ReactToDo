@@ -1,7 +1,7 @@
 import { entities, mainReducer, auth } from '../reducers/reducer'
 import * as actions from '../redux/actions'
 
-describe('post reducer', () => {
+describe('reducer', () => {
   const initialState = {
     auth: {
       login: false,
