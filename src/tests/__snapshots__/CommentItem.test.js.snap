@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  className="list-group-item list-group-item-light"
+  disabled={false}
+  onClick={[Function]}
+>
+  Comment body
+  <a
+    className="close-comment"
+    href="#"
+    onClick={[Function]}
+  />
+</div>
+`;

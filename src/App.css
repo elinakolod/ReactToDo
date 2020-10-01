@@ -1,33 +1,83 @@
-.App {
-  text-align: center;
+
+body{
+	background-image: url(images/back.jpg);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.close-comment {
+  position: absolute;
+  right: 15px;
+  top: 14px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.3;
+}
+.close-comment:hover,
+.close-task:hover {
+  opacity: 1;
+}
+.close-comment:before, .close-comment:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 20px;
+  width: 2px;
+  background-color: #333;
+}
+.close-comment:before,
+.close-task:before {
+  transform: rotate(45deg);
+}
+.close-comment:after,
+.close-task:after {
+  transform: rotate(-45deg);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.close-task {
+  position: absolute;
+  right: 5px;
+  top: 7px;
+  width: 30px;
+  height: 30px;
+  opacity: 0.3;
 }
 
-.App-link {
-  color: #61dafb;
+.close-task:before, .close-task:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 30px;
+  width: 2px;
+  background-color: #333;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h3 {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+input[type="checkbox"]{
+  display: inline;
+  margin-right: 10px;
+}
+
+h6 {
+  display: inline;
+  margin-right: 10px;
+}
+
+.taskNameInput{
+  display: none;
+  margin-bottom: 10px;
+}
+
+.projectNameInput{
+  display: none;
+}
+
+.done{
+  text-decoration: line-through;
+}
+
+.btn-outline-danger{
+  margin-left: 10px;
 }
