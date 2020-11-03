@@ -80,7 +80,7 @@ class TaskItem extends Component {
           { this.props.comments.map(this.renderComment) }
         </ListGroup>
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} id='comment-form'>
             <InputGroup className="mb-3">
               <FormControl
                 name='new_comment_body'

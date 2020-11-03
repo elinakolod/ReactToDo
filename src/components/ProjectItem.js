@@ -66,7 +66,7 @@ class ProjectItem extends Component {
         <a href="#" onClick={this.editButtonClick}>Edit</a>
         <Button variant="outline-danger" onClick={this.removeButtonClick}>Remove</Button>
         <div style={{paddingTop: '10px'}}>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit} id='task-form'>
             <InputGroup className="mb-3">
               <FormControl
                 name='new_task_name'

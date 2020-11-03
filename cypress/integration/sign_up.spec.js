@@ -13,12 +13,11 @@ describe('SignUp', () => {
     cy.get('.btn').click().should(() => {
       expect(localStorage.getItem('token')).to.exist
     })
-    cy.wait(1000)
     cy.url().should('include', '/projects')
     cy.get('h2').should('contain', this.userJson.first_name)
   })
 
-  it('shows errors', function () {
+  it('shows blank errors', function () {
     let errors = ["First name can't be blank",
                   "Last name can't be blank",
                   "Email can't be blank",
@@ -26,8 +25,19 @@ describe('SignUp', () => {
     cy.get('.btn').click().should(() => {
       expect(localStorage.getItem('token')).to.be.null
     })
-    cy.wait(1000)
     cy.url().should('include', '/signup')
     errors.forEach(message => cy.get('.error').should('contain', message))
+  })
+
+  it('check for already existing user', function () {
+    cy.signUp()
+    cy.clearLocalStorage()
+    cy.get('#formBasicEmail').type('test@i.ua')
+    let error = 'Email has already been taken'
+    cy.get('.btn').click().should(() => {
+      expect(localStorage.getItem('token')).to.be.null
+    })
+    cy.url().should('include', '/signup')
+    cy.get('.error').should('contain', error)
   })
 })
