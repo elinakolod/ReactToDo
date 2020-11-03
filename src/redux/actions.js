@@ -6,11 +6,12 @@ export const signUpUserRequest = user => dispatch => {
   return axios.post('http://localhost:3000/api/v1/signups', user,
   { withCredentials: true })
   .then(response => {
+    console.log(response.data)
     localStorage.setItem("token", response.data.csrf)
-    dispatch(loginUser())
+    dispatch(loginUser(response.data.user))
     history.push('/projects')
   })
-  .catch(error => console.log(error))
+  .catch(error => dispatch(loginUserError(error.response.data)))
 }
 
 export const signInUserRequest = user => dispatch => {
@@ -21,7 +22,7 @@ export const signInUserRequest = user => dispatch => {
     dispatch(loginUser())
     history.push('/projects')
   })
-  .catch(error => console.log(error))
+  .catch(error => alert(error))
 }
 
 export const logoutUserRequest = () => {
@@ -166,8 +167,19 @@ export const removeCommentRequest = (comment_id, task_id) => dispatch => {
   .catch(error => console.log(error))
 }
 
-const loginUser = () => ({
-  type: 'LOGIN_USER'
+const loginUser = user => ({
+  type: 'LOGIN_USER',
+  payload: user
+})
+
+const loginUserError = errors => ({
+  type: 'LOGIN_USER_ERROR',
+  payload: errors
+})
+
+const logInError = errors => ({
+  type: 'LOGIN_USER_ERROR',
+  payload: errors
 })
 
 const logoutUser = () => ({

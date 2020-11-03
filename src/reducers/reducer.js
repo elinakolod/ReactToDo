@@ -14,9 +14,11 @@ const entitiesInitState = {
 export function auth(state = initialState, action) {
   switch (action.type) {
     case 'LOGIN_USER':
-      return {...state, login: !!localStorage.getItem('token') }
+      return {...state, login: !!action.payload, user: action.payload }
     case 'LOGOUT_USER':
       return {...state, login: {} }
+    case 'LOGIN_USER_ERROR':
+      return {...state, ...action.payload}
     default:
       return state;
   }

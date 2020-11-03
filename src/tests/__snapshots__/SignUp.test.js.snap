@@ -21,7 +21,7 @@ exports[`matches snapshot 1`] = `
     <input
       className="form-control"
       id="formBasicFirstName"
-      name="firstName"
+      name="first_name"
       onChange={[Function]}
       placeholder="First Name"
       value=""
@@ -39,7 +39,7 @@ exports[`matches snapshot 1`] = `
     <input
       className="form-control"
       id="formBasicLastName"
-      name="lastName"
+      name="last_name"
       onChange={[Function]}
       placeholder="Last Name"
       value=""

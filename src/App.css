@@ -81,3 +81,7 @@ h6 {
 .btn-outline-danger{
   margin-left: 10px;
 }
+
+.error{
+  color: red;
+}
