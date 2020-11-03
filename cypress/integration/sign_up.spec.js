@@ -1,26 +1,21 @@
 describe('SignUp', () => {
   beforeEach(() => {
     cy.clean()
+    cy.fixture('user.json').as('userJson')
     cy.visit('/signup')
   })
 
   it('signups', function () {
-    let person = {
-      name: 'Joe',
-      lastName: 'Ivanov',
-      email: 'test@i.ua',
-      password: '123456'
-    }
-    cy.get('#formBasicFirstName').type(person.name).should('have.value', person.name)
-    cy.get('#formBasicLastName').type(person.lastName).should('have.value', person.lastName)
-    cy.get('#formBasicEmail').type(person.email).should('have.value', person.email)
-    cy.get('#formBasicPassword').type(person.password).should('have.value', person.password)
+    cy.get('#formBasicFirstName').type(this.userJson.first_name).should('have.value', this.userJson.first_name)
+    cy.get('#formBasicLastName').type(this.userJson.last_name).should('have.value', this.userJson.last_name)
+    cy.get('#formBasicEmail').type(this.userJson.email).should('have.value', this.userJson.email)
+    cy.get('#formBasicPassword').type(this.userJson.password).should('have.value', this.userJson.password)
     cy.get('.btn').click().should(() => {
       expect(localStorage.getItem('token')).to.exist
     })
     cy.wait(1000)
     cy.url().should('include', '/projects')
-    cy.get('h2').should('contain', person.name)
+    cy.get('h2').should('contain', this.userJson.first_name)
   })
 
   it('shows errors', function () {
@@ -28,7 +23,6 @@ describe('SignUp', () => {
                   "Last name can't be blank",
                   "Email can't be blank",
                   "Password can't be blank"]
-    cy.visit('/signup')
     cy.get('.btn').click().should(() => {
       expect(localStorage.getItem('token')).to.be.null
     })

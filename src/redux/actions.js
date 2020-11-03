@@ -19,7 +19,7 @@ export const signInUserRequest = user => dispatch => {
   { withCredentials: true })
   .then(response => {
     localStorage.setItem("token", response.data.csrf)
-    dispatch(loginUser())
+    dispatch(loginUser(response.data.user))
     history.push('/projects')
   })
   .catch(error => alert(error))
