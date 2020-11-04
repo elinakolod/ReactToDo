@@ -5,8 +5,8 @@ import { Form, Button } from 'react-bootstrap';
 
 class Signup extends Component {
   state = {
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: ""
   }
@@ -27,12 +27,20 @@ class Signup extends Component {
       <Form onSubmit={this.handleSubmit}>
         <h1>Sign Up For An Account</h1>
         <hr/>
+        <span class='error'>
+          <ul>
+            { this.props.errors ?
+              this.props.errors.map((error) => <li>{ error }</li>) :
+              ''
+            }
+          </ul>
+        </span>
 
         <Form.Group controlId="formBasicFirstName">
           <Form.Label>First Name</Form.Label>
           <Form.Control
-              name='firstName'
-              value={this.state.firstName}
+              name='first_name'
+              value={this.state.first_name}
               onChange={this.handleChange}
               placeholder="First Name" />
         </Form.Group>
@@ -40,8 +48,8 @@ class Signup extends Component {
         <Form.Group controlId="formBasicLastName">
           <Form.Label>Last Name</Form.Label>
           <Form.Control
-              name='lastName'
-              value={this.state.lastName}
+              name='last_name'
+              value={this.state.last_name}
               onChange={this.handleChange}
               placeholder="Last Name" />
         </Form.Group>
@@ -74,8 +82,14 @@ class Signup extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    errors: state.auth.error
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
   signUpUserRequest: userInfo => dispatch(signUpUserRequest(userInfo))
 })
 
-export default connect(null, mapDispatchToProps)(Signup);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

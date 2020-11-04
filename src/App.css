@@ -1,6 +1,6 @@
 
 body{
-	background-image: url(images/back.jpg);
+	background-color: black;
 }
 
 .close-comment {
@@ -80,4 +80,8 @@ h6 {
 
 .btn-outline-danger{
   margin-left: 10px;
+}
+
+.error{
+  color: red;
 }

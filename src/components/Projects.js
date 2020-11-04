@@ -35,10 +35,11 @@ class Projects extends Component {
   render() {
     return (
       <div>
-        <h2>Projects</h2>
+        <h2>Projects for {this.props.userName}</h2>
         <hr/>
         <br/>
-        <Form onSubmit={this.handleSubmit}>
+        <span class='error'>{ this.props.errors }</span>
+        <Form onSubmit={this.handleSubmit} id='project-form'>
           <InputGroup className="mb-3">
             <FormControl
               name='name'
@@ -65,7 +66,9 @@ class Projects extends Component {
 
 const mapStateToProps = state => {
   return {
-    projects: Object.values(state.entities.projects)
+    projects: Object.values(state.entities.projects),
+    userName: state.auth.user?.first_name,
+    errors: state.entities.errors?.name
   }
 }
 

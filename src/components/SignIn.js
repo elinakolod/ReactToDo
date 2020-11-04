@@ -25,7 +25,14 @@
         <Form onSubmit={this.handleSubmit}>
           <h1>Login</h1>
           <hr/>
-
+          <span class='error'>
+            <ul>
+              { this.props.errors ?
+                this.props.errors.map((error) => <li>{ error }</li>) :
+                ''
+              }
+            </ul>
+          </span>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
