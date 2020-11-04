@@ -32,6 +32,8 @@ export function entities(state = entitiesInitState, action) {
       return  merge({}, state, action.payload.entities)
     case 'UPDATE_PROJECT_SUCCESS':
       return {...state, projects: {...state.projects, ...action.payload.entities.projects}}
+    case 'VALIDATION_ERROR':
+      return {...state, errors: action.payload}
     case 'CREATE_TASK_SUCCESS':
       let project_id = Object.values(action.payload.entities.tasks).shift().project_id
       let task_id = Object.keys(action.payload.entities.tasks).shift()
@@ -44,7 +46,8 @@ export function entities(state = entitiesInitState, action) {
             tasks: concat(state.projects[project_id].tasks, [{ id: task_id, type: 'task' }])
           }
         },
-        tasks: merge({}, state.tasks, action.payload.entities.tasks)
+        tasks: merge({}, state.tasks, action.payload.entities.tasks),
+        errors: {}
       }
     case 'UPDATE_TASK_SUCCESS':
       return {...state, tasks: {...state.tasks, ...action.payload.entities.tasks}}
@@ -60,7 +63,8 @@ export function entities(state = entitiesInitState, action) {
             comments: concat(state.tasks[comment_task_id].comments, [{ id: comment_id, type: 'comment' }])
           }
         },
-        comments: merge({}, state.comments, action.payload.entities.comments)
+        comments: merge({}, state.comments, action.payload.entities.comments),
+        errors: {}
       }
     case 'DELETE_PROJECT_SUCCESS':
       let newProjectState = Object.assign({}, state.projects)

@@ -55,7 +55,7 @@ export const createProjectRequest = (project) => dispatch => {
   .then(response => {
     dispatch(projectCreateRequestSuccess(normalize(response.data)))
   })
-  .catch(error => console.log(error))
+  .catch(error => dispatch(validationError(error.response.data)))
 }
 
 export const removeProjectRequest = (project_id) => dispatch => {
@@ -86,7 +86,7 @@ export const updateProjectRequest = (project, project_id) => dispatch => {
   .then(response => {
     dispatch(projectUpdateRequestSuccess(normalize(response.data)))
   })
-  .catch(error => console.log(error))
+  .catch(error => dispatch(validationError(error.response.data)))
 }
 
 export const createTaskRequest = (task, project_id) => dispatch => {
@@ -102,7 +102,7 @@ export const createTaskRequest = (task, project_id) => dispatch => {
   .then(response => {
     dispatch(taskCreateRequestSuccess(normalize(response.data)))
   })
-  .catch(error => console.log(error))
+  .catch(error => dispatch(validationError(error.response.data)))
 }
 
 export const removeTaskRequest = (project_id, task_id) => dispatch => {
@@ -149,7 +149,7 @@ export const createCommentRequest = (comment, task_id) => dispatch => {
   .then(response => {
     dispatch(commentCreateRequestSuccess(normalize(response.data)))
   })
-  .catch(error => console.log(error))
+  .catch(error => dispatch(validationError(error.response.data)))
 }
 
 export const removeCommentRequest = (comment_id, task_id) => dispatch => {
@@ -177,11 +177,6 @@ const loginUserError = errors => ({
   payload: errors
 })
 
-const logInError = errors => ({
-  type: 'LOGIN_USER_ERROR',
-  payload: errors
-})
-
 const logoutUser = () => ({
   type: 'LOGOUT_USER'
 })
@@ -189,6 +184,11 @@ const logoutUser = () => ({
 const projectsRequestSuccess = projectsArray => ({
   type: 'FETCH_PROJECTS',
   payload: projectsArray
+})
+
+const validationError = errors => ({
+  type: 'VALIDATION_ERROR',
+  payload: errors
 })
 
 const projectCreateRequestSuccess = project => ({

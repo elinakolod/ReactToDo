@@ -66,7 +66,8 @@ class ProjectItem extends Component {
         <a href="#" onClick={this.editButtonClick}>Edit</a>
         <Button variant="outline-danger" onClick={this.removeButtonClick}>Remove</Button>
         <div style={{paddingTop: '10px'}}>
-          <Form onSubmit={this.handleSubmit} id='task-form'>
+          <span class='error'>{ this.props.errors }</span>
+          <Form onSubmit={this.handleSubmit}>
             <InputGroup className="mb-3">
               <FormControl
                 name='new_task_name'
@@ -94,7 +95,8 @@ class ProjectItem extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    tasks: values(pick(state.entities.tasks, props.project.tasks.map(task => task.id)))
+    tasks: values(pick(state.entities.tasks, props.project.tasks.map(task => task.id))),
+    errors: state.entities.errors?.name
   }
 }
 

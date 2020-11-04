@@ -21,7 +21,7 @@ class TaskItem extends Component {
   handleSubmit = event => {
     event.preventDefault()
     this.props.createCommentRequest({ body: this.state.new_comment_body }, this.props.task.id)
-    this.setState({new_task_name: ''})
+    this.setState({new_comment_body: ''})
   }
 
   renderComment(comment) {
@@ -73,13 +73,13 @@ class TaskItem extends Component {
                       onChange={this.handleChange} />
           }
         </span>
-        <a href="#" onClick={this.editButtonClick}>Edit</a>
+        <a href="#" onClick={this.editButtonClick} className="edit-task">Edit</a>
         <a href="#" className="close-task" onClick={this.removeButtonClick} />
 
         <ListGroup>
           { this.props.comments.map(this.renderComment) }
         </ListGroup>
-
+        <span class='error'>{ this.props.errors }</span>
         <Form onSubmit={this.handleSubmit} id='comment-form'>
             <InputGroup className="mb-3">
               <FormControl
@@ -102,7 +102,8 @@ class TaskItem extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    comments: values(pick(state.entities.comments, props.task.comments.map(comment => comment.id)))
+    comments: values(pick(state.entities.comments, props.task.comments.map(comment => comment.id))),
+    errors: state.entities.errors?.body
   }
 }
 
